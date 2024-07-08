@@ -1,7 +1,8 @@
 #!/bin/bash
-echo "Adding Drupal 9 basic Configs"
+echo "Adding Drupal 10 basic Configs"
 chmod 755 /var/www/html/web/sites/default/settings.php
 cat <<EOT >> /var/www/html/web/sites/default/settings.php
+\$settings['config_sync_directory'] = '../config/sync';
 \$MINIO_ACCESS_KEY=getenv("MINIO_ACCESS_KEY");
 \$MINIO_SECRET_KEY=getenv("MINIO_SECRET_KEY");
 \$MINIO_BUCKET_MEDIA=getenv("MINIO_BUCKET_MEDIA");
@@ -58,9 +59,11 @@ if (file_exists(\$app_root . '/' . \$site_path . '/settings.local.php')) {
 }
 
 EOT
+echo "Please edit your web/sites/default/settings.php and change \$settings['hash_salt'] if going to public!"
 echo "Updating your web root folder permissions."
 chmod 0666 /var/www/html/web/sites/default/settings.php
 chown -R www-data:www-data /var/www/html/web/sites
+chown -R www-data:www-data /var/www/html/private
 echo "Downloading JQUERY Slider Pips Library for facets" 
 mkdir -p /var/www/html/web/libraries/jquery-ui-slider-pips/dist
 curl -o /var/www/html/web/libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.js 'https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/v1.11.3/dist/jquery-ui-slider-pips.min.js' 
