@@ -105,7 +105,7 @@ domain_questions() {
 import_data() {
   [[ "${source_target}" != */ ]] && source_target="${source_target}/"
   shopt -s nullglob
- 
+
   for f in $source_target*.json
   do
     import_id=$(jq -cr .data.id "$f")
@@ -139,7 +139,7 @@ export_data() {
 interactive_prompts() {
   echo 'What would you like to do? '
   PS3='> '
-  
+
   select opt in "${metadata_action_opts[@]}"; do
     case "$opt" in
       "Cancel")
@@ -153,7 +153,7 @@ interactive_prompts() {
       *) echo "Please select an option.";;
     esac
   done
-  
+
   unset username
   unset password
   echo "JSON:API Username:"
@@ -170,9 +170,9 @@ interactive_prompts() {
   echo $'\n'
 
   domain_questions
-  
+
   json_api_endpoint="$archipelago_url/jsonapi/metadatadisplay_entity/metadatadisplay_entity"
-  
+
   if [ "${selected_metadata_action}" == "export" ]; then
     source_target=""
     echo 'Export to the current directory? (Please note that any existing .json files will be deleted first.) '
@@ -191,7 +191,7 @@ interactive_prompts() {
       esac
     done
     export_data
- 
+
   elif [ "${selected_metadata_action}" == "import" ]; then
     source_target=""
     echo 'Import from the current directory? '
