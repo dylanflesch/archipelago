@@ -68,7 +68,7 @@
         "drupal/search_api": "^1.2",
         "drupal/search_api_attachments": "^9.0",
         "drupal/search_api_autocomplete": "^1.2",
-        "drupal/search_api_solr": "4.3.2",
+        "drupal/search_api_solr": "4.3.4",
         "drupal/smtp": "^1.0",
         "drupal/tokenuuid": "^2.0",
         "drupal/twig_field": "^1.0",
@@ -144,7 +144,8 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "php-http/discovery": true
         },
         "preferred-install": {
             "archipelago/*": "source",
