@@ -335,7 +335,7 @@ Let's modify `pub_server_url`. Replace in the following command `your.domain.org
 NOTE: We are passing the `-y` flag to `drush` avoid that way having to answer "yes".
 
 ```shell
-docker exec -ti esmero-php bash -c "drush -y config-set format_strawberryfield.iiif_settings pub_server_url https://your.domain.org/cantaloupe/iiif/2"
+docker exec -ti esmero-php bash -c "drush config-set -y format_strawberryfield.iiif_settings pub_server_url https://your.domain.org/cantaloupe/iiif/2"
 ```
 
 Finally Done! Now you can log into your new Archipelago using `https` and start exploring. Thank you for following this guide!
