@@ -1,9 +1,5 @@
 # Run docker-compose run -d
-# drush config-import
-# After 1.0.0 this won't be maintained. For a non SSL version please see https://github.com/esmero/archipelago-deployment
-# Also no REDIS for this!
-
-version: '3.5'
+# Docker file with Self cert SSL. Not recommended for production
 services:
   web:
     container_name: esmero-web
@@ -31,7 +27,7 @@ services:
   php:
     container_name: esmero-php
     restart: always
-    image: "esmero/php-8.0-fpm:1.1.0-multiarch"
+    image: "esmero/php-8.1-fpm:1.2.0-multiarch"
     tty: true
     networks:
       - host-net
@@ -48,10 +44,10 @@ services:
   solr:
     container_name: esmero-solr
     restart: always
-    image: "solr:9.1.1"
+    image: "solr:9.2.1"
     tty: true
     environment:
-      SOLR_HEAP: 512m
+      SOLR_HEAP: 1024m
       SOLR_OPTS: -Dsolr.jetty.request.header.size=65535 -Dsolr.modules=scripting
     ports:
       - "8983:8983"
@@ -68,10 +64,12 @@ services:
       - drupal
       - /drupalconfig
   db:
-    image: mysql:8.0.28
+    image: mysql:8.0.37
     command: mysqld --binlog-expire-logs-seconds=172800 --max_allowed_packet=256M --transaction-isolation=READ-COMMITTED --log-bin=mysqld-bin
     container_name: esmero-db
     restart: always
+    cap_add:
+      - SYS_NICE
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
@@ -114,7 +112,7 @@ services:
   minio:
     container_name: esmero-minio
     restart: always
-    image: minio/minio:RELEASE.2022-06-11T19-55-32Z
+    image: minio/minio:latest
     volumes:
       - ${ARCHIPELAGO_ROOT}/data_storage/minio-data:/data:cached
     ports:
