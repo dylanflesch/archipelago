@@ -1,6 +1,5 @@
 # Run docker-compose up -d
 # Docker file for AMD64/X86 machines
-version: '3.5'
 services:
   web:
     container_name: esmero-web
@@ -61,10 +60,14 @@ services:
   solr:
     container_name: esmero-solr
     restart: always
-    image: "solr:9.1.1"
+    image: "solr:9.2.1"
+    # If running Docker < 20.10.10 please uncomment the following lines
+    # See https://solr.apache.org/guide/solr/latest/upgrade-notes/major-changes-in-solr-9.html#solr-9-2 
+    #security_opt:
+    #  - seccomp:unconfined
     tty: true
     environment:
-      SOLR_HEAP: 512m
+      SOLR_HEAP: 1024m
       SOLR_OPTS: -Dsolr.jetty.request.header.size=65535 -Dsolr.modules=scripting
     ports:
       - "8983:8983"
@@ -81,10 +84,12 @@ services:
       - drupal
       - /drupalconfig
   db:
-    image: mysql:8.0.28
+    image: mysql:8.0.37
     command: mysqld --binlog-expire-logs-seconds=172800 --max_allowed_packet=256M --transaction-isolation=READ-COMMITTED --log-bin=mysqld-bin
     container_name: esmero-db
     restart: always
+    cap_add:
+      - SYS_NICE
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
@@ -96,6 +101,9 @@ services:
     container_name: esmero-nlp
     restart: always
     image: "esmero/esmero-nlp:fasttext-multiarch"
+    # ML processing image. Live does not ship with ML configurations. But if you need to
+    # evaluate the tools on a Cloud server instead of a local replace previous image with this.
+    #image: "esmero/esmero-nlp:1.1.1-multiarch"
     ports:
       - "6400:6400"
     networks:
@@ -130,7 +138,9 @@ services:
     image: minio/minio:RELEASE.2022-06-11T19-55-32Z
     volumes:
       - ${ARCHIPELAGO_ROOT}/data_storage/minio-data:/data:cached
-    # Uncomment for Minio level caches  - /mnt/data/cache:/cache
+    # If you are using a Native Cloud Storage you can gain performance by not using min.io
+    # at all. Recommended only for Local Drives to S3 or for non native S3 (e.g Azure) routing 
+    # Uncomment for min.io level cache  - /mnt/data/cache:/cache  
     ports:
       - "9000:9000"
       - "9001:9001"
