@@ -572,7 +572,7 @@ display:
         cache: false
         use_ajax: false
         sorts: false
-      use_ajax: false
+      use_ajax: true
       display_description: ''
       exposed_block: false
       display_extenders:
