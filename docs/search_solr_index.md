@@ -9,7 +9,7 @@ tags:
 ---
 documentation-->
 
-# Archipelago-deployment-live: Archipelago-deployment-live: Upgrading Solr
+# Archipelago-deployment-live: Upgrading Solr
 
 ## What is this documentation for?
 
