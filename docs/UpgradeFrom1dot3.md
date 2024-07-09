@@ -181,7 +181,7 @@ sudo chmod 666 web/sites/default/*settings.php
 sudo chmod 666 web/sites/default/*services.yml
 ```
 
-### Step 4: Disable/Remove for additional select Drupal modules
+### Step 4: Update Drupal Core to stable 10.2.7
 
 We are going to remove additional select Drupal modules that are not 1.3.0 or D10 compliant.
 
