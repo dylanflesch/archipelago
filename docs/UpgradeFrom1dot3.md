@@ -142,7 +142,7 @@ You should see something like this if you synced all containers to the latest (y
 
 ```shell
 CONTAINER ID   IMAGE                                      COMMAND                  CREATED          STATUS          PORTS                              NAMES
-5b06ee366f58   jonasal/nginx-certbot                                        "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   0.0.0.0:8001->80/tcp               esmero-web
+5b06ee366f58   jonasal/nginx-certbot                      "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   0.0.0.0:8001->80/tcp               esmero-web
 86b685008158   solr:9.2.1                                 "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   0.0.0.0:8983->8983/tcp             esmero-solr
 a4872b237e17   esmero/cantaloupe-s3:6.0.1-multiarch       "sh -c 'java -Dcanta…"   10 minutes ago   Up 10 minutes   0.0.0.0:8183->8182/tcp             esmero-cantaloupe
 bec0b31f3421   mariadb:10.6.18-focal                      "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   3306/tcp                           esmero-db
