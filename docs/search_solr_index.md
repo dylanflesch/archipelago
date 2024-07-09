@@ -108,7 +108,7 @@ ___
 
 ### Step 0: Get familiar with what changed. 
 
-Running a Production Server requires some informed decision making and thus, we believe, a good pre-step is reviewing what [changed between releases](https://github.com/esmero/archipelago-deployment-live/compare/1.1.0...1.4.0). 
+Running a Production Server requires some informed decision making and thus, we believe, a good pre-step is reviewing what [changed between releases](https://github.com/esmero/archipelago-deployment-live/compare/1.3.0...1.4.0). 
 In specific focus on this folder.
 
 https://github.com/esmero/archipelago-deployment-live/tree/1.4.0/config_storage/solrconfig/conf
