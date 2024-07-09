@@ -223,8 +223,8 @@ Optional: You might want to review/compare (now) your current Drupal Search API 
 
 In specific:
 
- - https://github.com/esmero/archipelago-deployment-live/blob/1.1.0/drupal/config/sync/search_api.server.esmero_solr.yml
- - https://github.com/esmero/archipelago-deployment-live/blob/1.1.0/drupal/config/sync/search_api.index.default_solr_index.yml
+ - https://github.com/esmero/archipelago-deployment-live/blob/1.4.0/drupal/config/sync/search_api.server.esmero_solr.yml
+ - https://github.com/esmero/archipelago-deployment-live/blob/1.4.0/drupal/config/sync/search_api.index.default_solr_index.yml
 
 and anything that starts with `search_api.` too.
 
