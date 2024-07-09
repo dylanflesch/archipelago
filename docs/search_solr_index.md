@@ -275,7 +275,7 @@ docker exec esmero-php drush search-api-index
 ```
 Check your Drupal logs, try some searches.
 
-If you made it this far you are done with code/devops (are we ever ready?), and that means you should be able to (hopefully) stay in the Drupal 9.x realm for a few years!
+If you made it this far you are done with code/devops (are we ever ready?), and that means you should be able to (hopefully) stay in the Drupal 10.x realm for a few years!
 
 Done!
 
