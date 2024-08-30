@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/esmero/ami.git",
-                "reference": "5c1e864a12e5ca6cc11792ae4be0fa795b34323b"
+                "reference": "567fea5a1e3fa68d70fa41a36a9c57751f08e821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/esmero/ami/zipball/5c1e864a12e5ca6cc11792ae4be0fa795b34323b",
-                "reference": "5c1e864a12e5ca6cc11792ae4be0fa795b34323b",
+                "url": "https://api.github.com/repos/esmero/ami/zipball/567fea5a1e3fa68d70fa41a36a9c57751f08e821",
+                "reference": "567fea5a1e3fa68d70fa41a36a9c57751f08e821",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/esmero/ami/issues",
                 "source": "https://github.com/esmero/ami/tree/0.8.0"
             },
-            "time": "2024-07-01T18:03:38+00:00"
+            "time": "2024-08-30T17:51:18+00:00"
         },
         {
             "name": "archipelago/archipelago_subtheme",
@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/esmero/archipelago_subtheme.git",
-                "reference": "4c71f6a6a6d83018f477dc55f458bb9591f99b3b"
+                "reference": "876fd1338777ea870c6570166b67456229f675b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/esmero/archipelago_subtheme/zipball/4c71f6a6a6d83018f477dc55f458bb9591f99b3b",
-                "reference": "4c71f6a6a6d83018f477dc55f458bb9591f99b3b",
+                "url": "https://api.github.com/repos/esmero/archipelago_subtheme/zipball/876fd1338777ea870c6570166b67456229f675b6",
+                "reference": "876fd1338777ea870c6570166b67456229f675b6",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "issues": "https://github.com/esmero/archipelago_subtheme/issues",
                 "source": "https://github.com/esmero/archipelago_subtheme/tree/1.4.0"
             },
-            "time": "2024-07-09T20:03:31+00:00"
+            "time": "2024-08-14T15:56:53+00:00"
         },
         {
             "name": "archipelago/fragaria",
