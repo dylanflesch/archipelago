@@ -82,8 +82,10 @@ server {
         access_log off;
     }
 
-    # Very rarely should these ever be accessed outside of your lan
-    location ~* \.(txt|log)$ {
+    # Very rarely should .txt and .log ever be accessed
+    # But now we allow /do/ download endpoints to serve .txt and .log
+
+   location ~* ^(?!/do/.+/file/(?!\.(txt|log)$)).*\.(txt|log)$ {
         deny all;
     }
 
