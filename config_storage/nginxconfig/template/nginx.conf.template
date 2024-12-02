@@ -85,7 +85,7 @@ server {
     # Very rarely should .txt and .log ever be accessed
     # But now we allow /do/ download endpoints to serve .txt and .log
 
-   location ~* ^(?!/do/.+/file/(?!\.(txt|log)$)).*\.(txt|log)$ {
+   location ~* ^(?!/do/.+/(file|metadata)/(?!\.(txt|log)$)).*\.(txt|log)$ {
         deny all;
     }
 
