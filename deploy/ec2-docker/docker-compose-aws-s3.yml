@@ -169,7 +169,7 @@ services:
       - "6379:6379"
     command: >
       --requirepass ${REDIS_PASSWORD}
-      --save 20 1
+      --save ""
       --loglevel warning
       --maxmemory-policy allkeys-lru
       --maxmemory 2gb
