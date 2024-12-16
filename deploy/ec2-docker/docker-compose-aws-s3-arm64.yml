@@ -170,6 +170,8 @@ services:
     command: >
       --requirepass ${REDIS_PASSWORD}
       --save ""
+      # To allow Redis to write caches every 20 seconds, and reload on restart, uncomment the following line and comment the previous one out.
+      # --save 20 1
       --loglevel warning
       --maxmemory-policy allkeys-lru
       --maxmemory 2gb
