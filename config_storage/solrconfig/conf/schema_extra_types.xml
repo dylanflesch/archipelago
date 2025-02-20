@@ -22,7 +22,7 @@
   Edge NGram String Field
   6.0.0
 -->
-<fieldType name="text_edgenstring" class="solr.TextField" positionIncrementGap="100" storeOffsetsWithPositions="true" termVectors="true">
+<fieldType name="text_edgenstring" class="solr.TextField" positionIncrementGap="100" termPositions="true" termOffsets="true" storeOffsetsWithPositions="true" termVectors="true">
   <analyzer type="index">
     <tokenizer class="solr.KeywordTokenizerFactory"/>
     <filter class="solr.LowerCaseFilterFactory"/>
@@ -99,7 +99,7 @@
   English Text Field unstemmed
   7.0.0
 -->
-<fieldType name="text_unstemmed_en" class="solr.TextField" positionIncrementGap="100">
+<fieldType name="text_unstemmed_en" class="solr.TextField" positionIncrementGap="100" termPositions="true" termOffsets="true" storeOffsetsWithPositions="true" termVectors="true">
   <analyzer type="index">
     <charFilter class="solr.MappingCharFilterFactory" mapping="accents_en.txt"/>
     <tokenizer class="solr.WhitespaceTokenizerFactory"/>
@@ -124,7 +124,7 @@
   Fulltext Phonetic
   7.0.0
 -->
-<fieldType name="text_phonetic_und" class="solr.TextField" positionIncrementGap="100">
+<fieldType name="text_phonetic_und" class="solr.TextField" positionIncrementGap="100" termPositions="true" termOffsets="true" storeOffsetsWithPositions="true" termVectors="true">
   <analyzer type="index">
     <tokenizer class="solr.WhitespaceTokenizerFactory"/>
     <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_und.txt"/>
@@ -148,7 +148,7 @@
   Fulltext Phonetic English
   7.0.0
 -->
-<fieldType name="text_phonetic_en" class="solr.TextField" positionIncrementGap="100">
+<fieldType name="text_phonetic_en" class="solr.TextField" positionIncrementGap="100" termPositions="true" termOffsets="true" storeOffsetsWithPositions="true" termVectors="true">
   <analyzer type="index">
     <tokenizer class="solr.WhitespaceTokenizerFactory"/>
     <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_en.txt"/>
