@@ -100,10 +100,10 @@ services:
   nlp:
     container_name: esmero-nlp
     restart: always
-    image: "esmero/esmero-nlp:fasttext-multiarch"
+    image: "esmero/esmero-nlp:1.4.2-fasttext-multiarch"
     # ML processing image. Live does not ship with ML configurations. But if you need to
     # evaluate the tools on a Cloud server instead of a local replace previous image with this.
-    #image: "esmero/esmero-nlp:1.4.1-amd64"
+    #image: "esmero/esmero-nlp:1.4.2-amd64"
     ports:
       - "6400:6400"
     networks:
