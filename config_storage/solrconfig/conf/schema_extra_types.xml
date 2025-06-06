@@ -95,14 +95,27 @@
 </analyzer>
 </fieldType>
 <!--
+  English Text Field spellcheck
+  7.0.0
+-->
+<fieldType name="text_spell_en" class="solr.TextField" positionIncrementGap="100">
+  <analyzer>
+    <charFilter class="solr.MappingCharFilterFactory" mapping="accents_en.txt"/>
+    <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    <filter class="solr.LengthFilterFactory" min="2" max="100"/>
+    <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_en.txt"/>
+    <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+  </analyzer>
+</fieldType>
+<!--
  English Text Field collated
  7.0.0
 -->
 <fieldType name="collated_en" class="solr.ICUCollationField" locale="en" strength="primary" caseLevel="false"/>
-  <!--
-    English Text Field unstemmed
-    7.0.0
-  -->
+<!--
+  English Text Field unstemmed
+  7.0.0
+-->
 <fieldType name="text_unstemmed_en" class="solr.TextField" positionIncrementGap="100" termPositions="true" termOffsets="true" storeOffsetsWithPositions="true" termVectors="true">
 <analyzer type="index">
   <charFilter class="solr.MappingCharFilterFactory" mapping="accents_en.txt"/>
