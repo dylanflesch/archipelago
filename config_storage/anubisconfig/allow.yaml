@@ -1,8 +1,23 @@
 # Put here your Own Public and Private IPs. Even the Docker ones if you want so
 #- name: allow-my-archipelago-ips
+# Replace 'headers["Referer"].startsWith("http://esmero-web")' with your actual Domain name
 #  action: ALLOW
 #  remote_addresses: [
 #  ]
+- name: allow-myself-ajax
+  action: ALLOW
+  expression:
+    all:
+    - '"Referer" in headers'
+    - 'headers["Referer"].startsWith("http://esmero-web")'
+    - '"Sec-Fetch-Dest" in headers'
+    - 'headers["Sec-Fetch-Dest"] == "empty"'
+- name: allow-myself-internal
+  action: ALLOW
+  expression:
+    all:
+    - '"host" in headers'
+    - 'headers["host"] == "esmero-web"'
 - name: allow-my-archipelago-webannon-api-routes
   action: ALLOW
   expression:
@@ -10,6 +25,11 @@
     - '!(method == "HEAD")'
     - path.startsWith("/do/")
     - path.contains("/webannon/")
+- name: allow-my-archipelago-json-api-routes
+  action: ALLOW
+  expression:
+    all:
+    - path.startsWith("/jsonapi/")
 - name: allow-my-archipelago-webform-routes
   action: ALLOW
   expression:
@@ -21,24 +41,28 @@
     all:
     - path.startsWith("/do/")
     - path.contains("/metadata/search")
-- name: allow-my-archipelago-jsonapi
+- name: allow-my-archipelago-drupal-wrapper
   action: ALLOW
   expression:
     all:
-    - path.startsWith("/jsonapi/")
+    - '"_wrapper_format" in query'
+    - 'query["_wrapper_format"] == "drupal_ajax"'
+    - '"Sec-Fetch-Dest" in headers'
+    - 'headers["Sec-Fetch-Dest"] == "empty"'
 - name: allow-my-archipelago-ajax
   action: ALLOW
   expression:
     all:
     - >-
-        (  
+        ( 
           path.startsWith("/ajax") ||
           path.contains("/metadata/") ||
           path.contains("/flavorsearch/") ||
           path.contains("/exposed-views-form-block-ajax") ||
           path.startsWith("/views/ajax") ||
           path.startsWith("/views-bulk-operations") ||
-          path.startsWith("/batch")
+          path.startsWith("/batch") ||
+          path.startsWith("/toolbar")
         )
     - '"Sec-Fetch-Dest" in headers'
     - 'headers["Sec-Fetch-Dest"] == "empty"'
