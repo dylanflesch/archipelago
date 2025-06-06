@@ -1,5 +1,6 @@
 upstream cantaloupe {
   server esmero-cantaloupe:8182;
+  keepalive 32;
 }
 
 server {
@@ -11,13 +12,16 @@ server {
 
     root /var/www/html/web; ## <-- Your only path reference.
 
-    if ($http_user_agent ~* (lplinkcheck|netcrawl|npbot|bytedance|bytespider|gptbot|semrush|petalbot|amazonbot|ahrefsbot|zhanzhang|semrushbot|brightbot|imagesiftbot|barkrowler|friendlycrawler)) {
-        return 444;
+   if ($http_user_agent ~* (go\-http|zgrab|mj12bot|meta\-externalagent|oai\-searchbot|tiktok|tiktokspider|lplinkcheck|netcrawl|npbot|AliyunSecBot|bytedance|bytespider|gptbot|semrush|petalbot|amazonbot|ahrefsbot|zhanzhang|semrushbot|brightbot|imagesiftbot|barkrowler|friendlycrawler|turnitin|claudebot|python-requests|aiohttp|semanticscholarbot|go\-http\-client|facebookexternalhit)) {
+          return 444;
     }
 
     fastcgi_send_timeout 120s;
     fastcgi_read_timeout 120s;
     fastcgi_pass_request_headers on;
+    proxy_connect_timeout 60s;
+    proxy_send_timeout 120s;
+    proxy_read_timeout 300s;
 
     fastcgi_buffers 16 16k;
     fastcgi_buffer_size 32k;
@@ -61,11 +65,15 @@ server {
 
     # Cantaloupe proxypass
     location /cantaloupe/ {
+       include /etc/nginx/conf.d/ipdeny.include;
+       proxy_http_version 1.1;
+       proxy_set_header   "Connection" "";
        proxy_set_header X-Forwarded-Proto $scheme;
        proxy_set_header X-Forwarded-Host $host;
        proxy_set_header X-Forwarded-Port $server_port;
        proxy_set_header X-Forwarded-Path /cantaloupe/;
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_read_timeout 120s; 
        if ($request_uri ~* "/cantaloupe/(.*)") {
          proxy_pass http://cantaloupe/$1;
        }
@@ -138,15 +146,17 @@ server {
     # pattern with front controllers other than update.php in a future
     # release.
     location ~ '\.php$|^/update.php' {
+        include /etc/nginx/conf.d/ipdeny.include;
         fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
         include fastcgi_params;
         # Block httpoxy attacks. See https://httpoxy.org/.
         fastcgi_param HTTP_PROXY "";
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PATH_INFO $fastcgi_path_info;
-        fastcgi_param PHP_VALUE "upload_max_filesize=1536M \n post_max_size=1536M";
+        fastcgi_param PHP_VALUE "upload_max_filesize=1536M \n post_max_size=1536M \n max_execution_time=900";
         proxy_read_timeout 900s;
         fastcgi_intercept_errors on;
+        fastcgi_keep_conn on;
         fastcgi_pass esmero-php:9000;
     }
 
