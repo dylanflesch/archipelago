@@ -311,6 +311,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 25
           total_pages: null
           id: 0
@@ -572,7 +573,7 @@ display:
         cache: false
         use_ajax: false
         sorts: false
-      use_ajax: true
+      use_ajax: false
       display_description: ''
       exposed_block: false
       display_extenders:

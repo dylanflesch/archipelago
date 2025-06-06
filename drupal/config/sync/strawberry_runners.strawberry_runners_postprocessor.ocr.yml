@@ -4,10 +4,10 @@ status: true
 dependencies: {  }
 id: ocr
 label: ocr
-weight: '-10'
+weight: '-8'
 pluginconfig:
   source_type: asstructure
-  ado_type: ''
+  ado_type: 'Document,Book,Article'
   jsonkey:
     'as:image': 'as:image'
     'as:document': 'as:document'
@@ -27,13 +27,15 @@ pluginconfig:
   arguments_pdfalto: '-q %file'
   output_type: json
   output_destination:
+    plugin: plugin
     searchapi: searchapi
-    plugin: 0
   processor_queue_type: background
   nlp: 1
   nlp_url: 'http://esmero-nlp:6400'
   nlp_method: polyglot
-  timeout: '900'
+  timeout: '120'
+  uses_timeout_executable: 1
+  timeout_path: /usr/bin/timeout
   weight: '0'
 pluginid: ocr
 active: true

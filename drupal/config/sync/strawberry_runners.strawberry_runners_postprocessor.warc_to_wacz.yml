@@ -25,7 +25,9 @@ pluginconfig:
     ownkey: 0
     plugin: 0
     searchapi: 0
-  timeout: '99'
+  timeout: '900'
+  uses_timeout_executable: 1
+  timeout_path: /usr/bin/timeout
   weight: '0'
 pluginid: binary
 active: true

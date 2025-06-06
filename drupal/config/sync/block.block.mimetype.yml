@@ -12,7 +12,7 @@ dependencies:
 id: mimetype
 theme: archipelago_subtheme
 region: sidebar_second
-weight: -5
+weight: -10
 provider: null
 plugin: 'facet_block:mime_type'
 settings:
@@ -20,6 +20,7 @@ settings:
   label: 'MIME Type'
   label_display: visible
   provider: facets
+  context_mapping: {  }
   block_id: mimetype
 visibility:
   view_inclusion:
@@ -27,5 +28,4 @@ visibility:
     negate: false
     context_mapping: {  }
     view_inclusion:
-      view-solr_search_content-grid: view-solr_search_content-grid
       view-solr_search_content-page_1: view-solr_search_content-page_1
