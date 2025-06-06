@@ -1,6 +1,0 @@
-# Ideally, add explicit allow statements for your own IPs
-# See https://www.ipaddressguide.com/cidr
-# allow some CIDR
-
-# Please add your own detected/denied network here
-deny 47.74.0.0/15;
