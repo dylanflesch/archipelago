@@ -45,7 +45,6 @@
     7.0.0
   -->
 <fieldType name="text_edge" class="solr.TextField" positionIncrementGap="100" termPositions="true" termOffsets="true" storeOffsetsWithPositions="true" termVectors="true">
-    <charFilter class="solr.MappingCharFilterFactory" mapping="accents_und.txt"/>
 <analyzer type="index">
   <charFilter class="solr.MappingCharFilterFactory" mapping="accents_und.txt"/>
   <tokenizer class="solr.WhitespaceTokenizerFactory"/>
