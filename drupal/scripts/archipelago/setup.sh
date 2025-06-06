@@ -8,18 +8,20 @@ cat <<EOT >> /var/www/html/web/sites/default/settings.php
 \$MINIO_BUCKET_MEDIA=getenv("MINIO_BUCKET_MEDIA");
 \$MINIO_FOLDER_PREFIX_MEDIA=rtrim(getenv("MINIO_FOLDER_PREFIX_MEDIA"), "/");
 \$REDIS_PASSWORD=getenv("REDIS_PASSWORD");
-
+\$PHP_MEMORY_LIMIT=getenv("PHP_MEMORY_LIMIT") ?? "1024";
+\$PHP_CLI_MEMORY_LIMIT=getenv("PHP_CLI_MEMORY_LIMIT") ?? \$PHP_MEMORY_LIMIT;
 \$settings['s3fs.access_key'] = \$MINIO_ACCESS_KEY;
 \$settings['s3fs.secret_key'] = \$MINIO_SECRET_KEY;
 \$config['s3fs.settings']['bucket'] = \$MINIO_BUCKET_MEDIA;
 \$config['s3fs.settings']['root_folder'] = \$MINIO_FOLDER_PREFIX_MEDIA;
 \$settings['s3fs.upload_as_private'] = TRUE;
 \$settings['file_private_path'] = '/var/www/html/private';
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', \$PHP_MEMORY_LIMIT.'M');
 if (PHP_SAPI !== 'cli') {
   \$settings['reverse_proxy'] = TRUE;
   \$settings['reverse_proxy_addresses'] = [@\$_SERVER['REMOTE_ADDR']];
 } else {
+  ini_set('memory_limit', \$PHP_CLI_MEMORY_LIMIT.'M');
   \$settings['reverse_proxy'] = FALSE;
 }
 // Please change
@@ -64,9 +66,9 @@ echo "Updating your web root folder permissions."
 chmod 0666 /var/www/html/web/sites/default/settings.php
 chown -R www-data:www-data /var/www/html/web/sites
 chown -R www-data:www-data /var/www/html/private
-echo "Downloading JQUERY Slider Pips Library for facets" 
+echo "Downloading JQUERY Slider Pips Library for facets"
 mkdir -p /var/www/html/web/libraries/jquery-ui-slider-pips/dist
-curl -o /var/www/html/web/libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.js 'https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/v1.11.3/dist/jquery-ui-slider-pips.min.js' 
-curl -o /var/www/html/web/libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.css 'https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/v1.11.3/dist/jquery-ui-slider-pips.min.css' 
+curl -o /var/www/html/web/libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.js 'https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/v1.11.3/dist/jquery-ui-slider-pips.min.js'
+curl -o /var/www/html/web/libraries/jquery-ui-slider-pips/dist/jquery-ui-slider-pips.min.css 'https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/v1.11.3/dist/jquery-ui-slider-pips.min.css'
 echo "Setting Git safe directories to permissive/docker"
 git config --global --add safe.directory "*"
