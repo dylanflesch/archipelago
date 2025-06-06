@@ -15,7 +15,26 @@ server {
    if ($http_user_agent ~* (go\-http|zgrab|mj12bot|meta\-externalagent|oai\-searchbot|tiktok|tiktokspider|lplinkcheck|netcrawl|npbot|AliyunSecBot|bytedance|bytespider|gptbot|semrush|petalbot|amazonbot|ahrefsbot|zhanzhang|semrushbot|brightbot|imagesiftbot|barkrowler|friendlycrawler|turnitin|claudebot|python-requests|aiohttp|semanticscholarbot|go\-http\-client|facebookexternalhit)) {
           return 444;
     }
+    
+    # Anubis Config.
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    location ~* ^/\.within./\.website {
+      allow all;
+    }
 
+    location ^~ /.within.website/ {
+      allow all;
+      proxy_pass http://esmero-anubis:8969;
+      auth_request off;
+    }
+
+    location @redirectToAnubis {
+     return 307 /.within.website/?redir=$request_uri;
+     auth_request off;
+    }
+    # End Anubis
+     
     fastcgi_send_timeout 120s;
     fastcgi_read_timeout 120s;
     fastcgi_pass_request_headers on;
@@ -79,14 +98,13 @@ server {
        }
     }
 
-  # Tus upload to allow resumes 
-  location ~* /webform_strawberry/tus_upload {
+   # Tus upload to allow resumes
+   location ~* /webform_strawberry/tus_upload {
         proxy_request_buffering  off;
         proxy_buffering          off;
         proxy_http_version       1.1;
         try_files $uri $uri/ /index.php?$request_uri;
-   } 
-
+   }
 
    location = /favicon.ico {
         log_not_found off;
@@ -156,6 +174,9 @@ server {
     # release.
     location ~ '\.php$|^/update.php' {
         include /etc/nginx/conf.d/ipdeny.include;
+        # Anubis acts as an authrequest
+        auth_request /.within.website/x/cmd/anubis/api/check;
+        error_page 401 = @redirectToAnubis;
         fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
         include fastcgi_params;
         # Block httpoxy attacks. See https://httpoxy.org/.
