@@ -9,6 +9,7 @@ data_storage/iiifcache/*
 data_storage/letsencrypt/*
 data_storage/ngnixcache/*
 data_storage/solrcore/*
+data_storage/minio-data/*
 drupal/composer.lock
 drupal/vendor/*
 drupal/web/*
@@ -16,4 +17,4 @@ drupal/private/*
 config_storage/nginxconfig/bots.d
 config_storage/nginxconfig/template/bots.include.template
 config_storage/nginxconfig/template/bots.include.copy
-/data_storage/minio-data
+config_storage/nginxconfig/template/ipdeny.include.template
