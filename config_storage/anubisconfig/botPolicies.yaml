@@ -11,8 +11,8 @@
 ## /usr/share/docs/anubis/data or in the tarball you extracted Anubis from.
 
 bots:
-- import: (data)/archipelago/allow.yaml
-- import: (data)/archipelago/deny.yaml
+- import: /data/cfg/archipelago/allow.yaml
+- import: /data/cfg/archipelago/deny.yaml
 
 # Pathological bots to deny
 - # This correlates to data/bots/deny-pathological.yaml in the source tree
