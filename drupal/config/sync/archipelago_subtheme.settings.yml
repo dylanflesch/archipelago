@@ -1,5 +1,6 @@
 _core:
   default_config_hash: LdPjc1VCTO3_q56LqMexIbDmRvhlTEdTFHajPe4laUs
+langcode: en
 favicon:
   mimetype: image/png
   path: 'public://ArchipelagoCommonsLogo_favicon-32x32.png'
@@ -110,6 +111,13 @@ bootstrap_barrio_breadcrumb_divider: ''
 bootstrap_barrio_button_type: primary
 bootstrap_barrio_float_label: 0
 bootstrap_barrio_enable_color: 0
+bootstrap_barrio_base_primary_color: '#a8c6fe'
+bootstrap_barrio_base_secondary_color: '#3a88fe'
+bootstrap_barrio_body_color: gray-800
+bootstrap_barrio_body_bg_color: white
+bootstrap_barrio_h1_color: base
+bootstrap_barrio_h2_color: base
+bootstrap_barrio_h3_color: base
 bootstrap_barrio_region_width_top_header: 0
 bootstrap_barrio_region_width_top_header_form: 0
 bootstrap_barrio_region_width_header: 0
@@ -133,3 +141,4 @@ bootstrap_barrio_region_width_footer_second: 0
 bootstrap_barrio_region_width_footer_third: 0
 bootstrap_barrio_region_width_footer_fourth: 0
 bootstrap_barrio_region_width_footer_fifth: 0
+bootstrap_barrio_messages_widget_toast_delay: '10000'
