@@ -75,14 +75,16 @@ services:
       POLICY_FNAME: "/data/cfg/botPolicies.yaml"
       OG_PASSTHROUGH: "false"
       OG_EXPIRY_TIME: "24h"
+      SLOG_LEVEL: "info"
+      #SLOG_LEVEL: "debug"
     ports:
       - 8969:8969
     networks:
       - esmero-net
     volumes:
-      - ${ARCHIPELAGO_ROOT}/config_storage/anubis/botPolicies.yaml:/data/cfg/botPolicies.yaml:ro
-      - ${ARCHIPELAGO_ROOT}/config_storage/anubis/allow.yaml:/data/cfg/archipelago/allow.yaml:ro
-      - ${ARCHIPELAGO_ROOT}/config_storage/anubis/deny.yaml:/data/cfg/archipelago/deny.yaml:ro
+      - ${ARCHIPELAGO_ROOT}/config_storage/anubisconfig/botPolicies.yaml:/data/cfg/botPolicies.yaml:ro
+      - ${ARCHIPELAGO_ROOT}/config_storage/anubisconfig/allow.yaml:/data/cfg/archipelago/allow.yaml:ro
+      - ${ARCHIPELAGO_ROOT}/config_storage/anubisconfig/deny.yaml:/data/cfg/archipelago/deny.yaml:ro
   solr:
     container_name: esmero-solr
     restart: always
@@ -96,6 +98,7 @@ services:
       SOLR_HEAP: 1024m
       SOLR_OPTS: -Dsolr.jetty.request.header.size=65535 -Dsolr.install.dir=/opt/solr
       SOLR_MODULES: "extraction,langid,ltr,analysis-extras,scripting"
+      SOLR_LOG_LEVEL: "WARN"
     ports:
       - "8983:8983"
     networks:
