@@ -235,7 +235,7 @@ The following files are needed by Anubis and mounted on start. if you get this w
 ```
 cp config_storage/anubisconfig/allow.yaml.default config_storage/anubisconfig/allow.yaml
 cp config_storage/anubisconfig/deny.yaml.default config_storage/anubisconfig/deny.yaml
-cp config_storage/anubisconfig/botPolicies.yaml.default config_storage/anubisconfig/botPolicies.yaml.default 
+cp config_storage/anubisconfig/botPolicies.yaml.default config_storage/anubisconfig/botPolicies.yaml 
 ```
 
 We also want your Internet domain to be setup here. Replace in the following command `your.domain.org` with the domain you setup in your `.env` file and run:
