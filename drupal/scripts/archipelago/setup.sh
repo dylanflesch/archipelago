@@ -16,6 +16,10 @@ cat <<EOT >> /var/www/html/web/sites/default/settings.php
 \$config['s3fs.settings']['root_folder'] = \$MINIO_FOLDER_PREFIX_MEDIA;
 \$settings['s3fs.upload_as_private'] = TRUE;
 \$settings['file_private_path'] = '/var/www/html/private';
+if (isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) \&\&
+  \$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+  \$_SERVER['HTTPS'] = 'on';
+}
 ini_set('memory_limit', \$PHP_MEMORY_LIMIT.'M');
 if (PHP_SAPI !== 'cli') {
   \$settings['reverse_proxy'] = TRUE;
