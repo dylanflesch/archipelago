@@ -65,6 +65,14 @@ echo -e "IIIF 3.0 Thumbnail Manifest Snippet for Collections\n"
 
 curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/metadatadisplay_entity/metadatadisplay_entity/adf12524-11ca-4925-bc23-d028556e75ac --data-binary @d8content/metadatadisplay_entity_16.json;
 
+echo -e "OAI-PMH Wrapper\n"
+
+curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/metadatadisplay_entity/metadatadisplay_entity/7ed7f7b2-7690-402f-93ea-a9b50a094f30 --data-binary @d8content/metadatadisplay_entity_17.json;
+
+echo -e "OAI-PMH Item with DC\n"
+
+curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/metadatadisplay_entity/metadatadisplay_entity/b5c12175-e0a9-49e9-a698-cbba342667e0 --data-binary @d8content/metadatadisplay_entity_18.json;
+
 echo -e "Updating Menu Items\n"
 
 curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/menu_link_content/menu_link_content/a580dad6-5932-4f9d-bdaa-06b5563c386c --data-binary @d8content/menu_link_content_01.json;
@@ -79,6 +87,14 @@ curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Co
 echo -e "A welcome message\n"
 
 curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/block_content/block_with_twig_templating_/1cdf7155-eb60-4f27-9e5e-64fffe93127a --data-binary @d8content/block_content_01.json;
+
+echo -e "A Footer Block with cute icons\n"
+
+curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/block_content/basic/3922a818-cb0d-438c-bdde-7761ff27cb19 --data-binary @d8content/block_content_03.json;
+
+echo -e "Advanced Search Page Block\n"
+
+curl -w "\n" --user jsonapi:jsonapi -H 'Accept: application/vnd.api+json' -H 'Content-type: application/vnd.api+json' -XPATCH http://esmero-web/jsonapi/block_content/block_with_twig_templating_/9aa72fb1-2817-44a7-8fb5-a3eb51166e83 --data-binary @d8content/block_content_02.json;
 
 echo -e "Last pass, setting web owner to tmp files folder and clearing Drupal caches\n"
 
