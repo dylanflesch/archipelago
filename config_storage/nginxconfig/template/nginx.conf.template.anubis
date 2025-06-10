@@ -1,54 +1,56 @@
+map $http_x_forwarded_proto $fastcgi_param_https_variable {
+    default '';
+    https 'on';
+}
 upstream cantaloupe {
-  server esmero-cantaloupe:8182;
-  keepalive 32;
+    server esmero-cantaloupe:8182;
+    keepalive 32;
 }
 
+upstream drupal {
+    server esmero-web:61111;
+}
+
+upstream anubis {
+
+    # Make sure this matches the values you set for `BIND` and `BIND_NETWORK`.
+    # If this does not match, your services will not be protected by Anubis.
+
+    server esmero-anubis:8969;
+
+    # Optional: fall back to serving the websites directly. This allows your
+    # websites to be resilient against Anubis failing, at the risk of exposing
+    # them to the raw internet without protection. This is a tradeoff and can
+    # be worth it in some edge cases.
+}
+
+
 server {
-    listen              443 ssl;
+
+    listen 443 ssl;
     server_name         ${FQDN};
     ssl_certificate     /etc/letsencrypt/live/${FQDN}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${FQDN}/privkey.pem;
     client_max_body_size 1536M; ## Match with PHP from FPM container
 
-    root /var/www/html/web; ## <-- Your only path reference.
+    if ($http_user_agent ~* (go\-http|zgrab|mj12bot|meta\-externalagent|oai\-searchbot|tiktok|tiktokspider|lplinkcheck|netcrawl|npbot|AliyunSecBot|bytedance|bytespider|gptbot|semrush|petalbot|amazonbot|ahrefsbot|zhanzhang|semrushbot|brightbot|imagesiftbot|barkrowler|friendlycrawler|turnitin|claudebot|python-requests|aiohttp|semanticscholarbot|go\-http\-client|facebookexternalhit)) {
 
-   if ($http_user_agent ~* (go\-http|zgrab|mj12bot|meta\-externalagent|oai\-searchbot|tiktok|tiktokspider|lplinkcheck|netcrawl|npbot|AliyunSecBot|bytedance|bytespider|gptbot|semrush|petalbot|amazonbot|ahrefsbot|zhanzhang|semrushbot|brightbot|imagesiftbot|barkrowler|friendlycrawler|turnitin|claudebot|python-requests|aiohttp|semanticscholarbot|go\-http\-client|facebookexternalhit)) {
-          return 444;
-    }
-    
-    # Anubis Config.
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    location ~* ^/\.within./\.website {
-      allow all;
+        return 444;
     }
 
-    location ^~ /.within.website/ {
-      allow all;
-      proxy_pass http://esmero-anubis:8969;
-      auth_request off;
-    }
-
-    location @redirectToAnubis {
-     return 307 /.within.website/?redir=$request_uri;
-     auth_request off;
-    }
-    # End Anubis
-     
     fastcgi_send_timeout 120s;
     fastcgi_read_timeout 120s;
     fastcgi_pass_request_headers on;
-    proxy_connect_timeout 60s;
+    proxy_connect_timeout 120s;
     proxy_send_timeout 120s;
     proxy_read_timeout 300s;
 
     fastcgi_buffers 16 16k;
     fastcgi_buffer_size 32k;
-    
-    # Please adapt to your needs
-    proxy_buffers 16 16k;  
-    proxy_buffer_size 16k;
 
+    # Please adapt to your needs
+    proxy_buffers 16 16k;
+    proxy_buffer_size 16k;
     include /etc/nginx/conf.d/bots.include;
 
     #gzip
@@ -62,56 +64,69 @@ server {
     gzip_http_version 1.1;
     gzip_min_length 256;
     gzip_types
-      application/atom+xml
-      application/geo+json
-      application/javascript
-      application/x-javascript
-      application/json
-      application/ld+json
-      application/manifest+json
-      application/rdf+xml
-      application/rss+xml
-      application/xhtml+xml
-      application/xml
-      font/eot
-      font/otf
-      font/ttf
-      image/svg+xml
-      text/css
-      text/javascript
-      text/plain
-      text/xml;
+    application/atom+xml
+    application/geo+json
+    application/javascript
+    application/x-javascript
+    application/json
+    application/ld+json
+    application/manifest+json
+    application/rdf+xml
+    application/rss+xml
+    application/xhtml+xml
+    application/xml
+    font/eot
+    font/otf
+    font/ttf
+    image/svg+xml
+    text/css
+    text/javascript
+    text/plain
+    text/xml;
 
-    # Cantaloupe proxypass
+
     location /cantaloupe/ {
-       include /etc/nginx/conf.d/ipdeny.include;
-       proxy_http_version 1.1;
-       proxy_set_header   "Connection" "";
-       proxy_set_header X-Forwarded-Proto $scheme;
-       proxy_set_header X-Forwarded-Host $host;
-       proxy_set_header X-Forwarded-Port $server_port;
-       proxy_set_header X-Forwarded-Path /cantaloupe/;
-       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-       proxy_read_timeout 120s; 
-       if ($request_uri ~* "/cantaloupe/(.*)") {
-         proxy_pass http://cantaloupe/$1;
-       }
+
+        include /etc/nginx/conf.d/ipdeny.include;
+        proxy_http_version 1.1;
+        set_real_ip_from 172.17.0.0/16;
+        real_ip_header X-Real-IP;
+        real_ip_recursive on;
+        proxy_set_header "Connection" "";
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+        proxy_set_header X-Forwarded-Path /cantaloupe/;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_read_timeout 120s;
+        if ($request_uri ~* "/cantaloupe/(.*)") {
+            proxy_pass http://cantaloupe/$1;
+        }
     }
 
-   # Tus upload to allow resumes
-   location ~* /webform_strawberry/tus_upload {
-        proxy_request_buffering  off;
-        proxy_buffering          off;
-        proxy_http_version       1.1;
-        try_files $uri $uri/ /index.php?$request_uri;
-   }
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-   location = /favicon.ico {
+    location ~* ^/.within./\.website {
+        allow all;
+    }
+    location ^~ /.within.website/ {
+        allow all;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://anubis;
+    }
+
+    location = /favicon.ico {
+
         log_not_found off;
         access_log off;
     }
 
     location = /robots.txt {
+
         allow all;
         log_not_found off;
         access_log off;
@@ -120,7 +135,7 @@ server {
     # Very rarely should .txt and .log ever be accessed
     # But now we allow /do/ download endpoints to serve .txt and .log
 
-   location ~* ^(?!/do/.+/(file|metadata)/(?!\.(txt|log)$)).*\.(txt|log)$ {
+    location ~* ^(?!/do/.+/(file|metadata)/(?!\.(txt|log)$)).*\.(txt|log)$ {
         deny all;
     }
 
@@ -144,6 +159,68 @@ server {
         return 403;
     }
 
+    # Don't allow direct access to PHP files in the vendor directory.
+    location ~ /vendor/.*\.php$ {
+        deny all;
+        return 404;
+    }
+
+
+    # Tus upload to allow resumes
+    location /webform_strawberry/tus_upload/ {
+        include /etc/nginx/conf.d/ipdeny.include;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_request_buffering off;
+        proxy_buffering off;
+        proxy_http_version 1.1;
+        proxy_pass http://drupal$request_uri;
+    }
+
+
+    location / {
+        include /etc/nginx/conf.d/ipdeny.include;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://anubis;
+    }
+}
+
+server {
+
+    listen 61111;
+    server_name ${FQDN};
+    client_max_body_size 1536M; ## Match with PHP from FPM container
+    set_real_ip_from 172.16.0.0/12; ## Docker Network. Change if running on other private nets.
+    real_ip_header X-Real-IP;
+    real_ip_recursive on;
+
+    root /var/www/html/web; ## <-- Your only path reference.
+
+    fastcgi_send_timeout 120s;
+    fastcgi_read_timeout 120s;
+    fastcgi_pass_request_headers on;
+    proxy_connect_timeout 120s;
+    proxy_send_timeout 120s;
+    proxy_read_timeout 300s;
+
+    fastcgi_buffers 16 16k;
+    fastcgi_buffer_size 32k;
+
+    # Please adapt to your needs
+    proxy_buffers 16 16k;
+    proxy_buffer_size 16k;
+
+    # Allow "Well-Known URIs" as per RFC 5785
+    location ~* ^/.well-known/ {
+        allow all;
+    }
+
     location / {
         try_files $uri /index.php?$query_string; # For Drupal >= 7
     }
@@ -152,16 +229,10 @@ server {
         rewrite ^/(.*)$ /index.php?q=$1;
     }
 
-    # Don't allow direct access to PHP files in the vendor directory.
-    location ~ /vendor/.*\.php$ {
-        deny all;
-        return 404;
-    }
-
     # Allow Modules to be updated via UI (still we believe composer is the way)
     rewrite ^/core/authorize.php/core/authorize.php(.*)$ /core/authorize.php$1;
 
-    # In Drupal 8, we must also match new paths where the '.php' appears in
+    # In Drupal 8+, we must also match new paths where the '.php' appears in
     # the middle, such as update.php/selection. The rule we use is strict,
     # and only allows this pattern with the update.php front controller.
     # This allows legacy path aliases in the form of
@@ -174,15 +245,13 @@ server {
     # release.
     location ~ '\.php$|^/update.php' {
         include /etc/nginx/conf.d/ipdeny.include;
-        # Anubis acts as an authrequest
-        auth_request /.within.website/x/cmd/anubis/api/check;
-        error_page 401 = @redirectToAnubis;
         fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
         include fastcgi_params;
         # Block httpoxy attacks. See https://httpoxy.org/.
         fastcgi_param HTTP_PROXY "";
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param HTTPS $fastcgi_param_https_variable if_not_empty;
         fastcgi_param PHP_VALUE "upload_max_filesize=1536M \n post_max_size=1536M \n max_execution_time=900";
         proxy_read_timeout 900s;
         fastcgi_intercept_errors on;
@@ -190,13 +259,15 @@ server {
         fastcgi_pass esmero-php:9000;
     }
 
-     # Fighting with Styles? This little gem is amazing.
-    location ~ ^/sites/.*/files/styles/ { # For Drupal >= 7
+    # Fighting with Styles? This little gem is amazing.
+    location ~ ^/sites/.*/files/styles/ {
+        # For Drupal >= 7
         try_files $uri @rewrite;
     }
 
     # Handle private files through Drupal.
-    location ~ ^/system/files/ { # For Drupal >= 7
+    location ~ ^/system/files/ {
+        # For Drupal >= 7
         try_files $uri /index.php?$query_string;
     }
     # Enforce clean URLs

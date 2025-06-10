@@ -70,7 +70,7 @@ services:
       SERVE_ROBOTS_TXT: "true"
       # see https://anubis.techaro.lol/docs/admin/installation/#key-generation
       ED25519_PRIVATE_KEY_HEX: ${ANUBIS_PRIVATE_KEY}
-      TARGET: " "
+      TARGET: "http://esmero-web:61111"
       REDIRECT_DOMAINS: ${ARCHIPELAGO_DOMAIN}
       POLICY_FNAME: "/data/cfg/botPolicies.yaml"
       OG_PASSTHROUGH: "false"
