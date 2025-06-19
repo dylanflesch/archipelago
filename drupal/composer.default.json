@@ -79,7 +79,7 @@
         "drupal/webform_entity_handler": "^2.0",
         "drupal/webformnavigation": "^2.0",
         "drupal/workflow": "^1.1",
-        "drush/drush": "^12",
+        "drush/drush": "^13",
         "maennchen/zipstream-php": "^2.1",
         "mixnode/mixnode-warcreader-php": "^0.0.6",
         "ml/json-ld": "^1.0",
@@ -225,7 +225,7 @@
            "league/openapi-psr7-validator" : {
              "Fixes OpenAPI 1.8 compat": "https://github.com/DiegoPino/openapi-psr7-validator/commit/94e9df4c152d0db46cfa475fa8bb319ff5ac551a.patch"
             }
-	      },
+	    },
         "drupal-lenient": {
             "allowed-list": ["drupal/form_mode_manager"]
         }
