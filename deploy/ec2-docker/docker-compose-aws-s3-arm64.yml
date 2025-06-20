@@ -163,7 +163,7 @@ services:
       S3CACHE_OBJECT_KEY_PREFIX: ${MINIO_FOLDER_PREFIX_CACHE}
       XMS: 2g
       XMX: 8g
-      JAVA_OPS: -XX:+UseZGC
+      JAVA_OPS: -XX:+UseG1GC
     volumes:
       - ${ARCHIPELAGO_ROOT}/config_storage/iiifconfig:/etc/cantaloupe
       - ${ARCHIPELAGO_ROOT}/data_storage/iiifcache:/var/cache/cantaloupe
