@@ -1,6 +1,6 @@
 # The solr-ocrhighlighting Library
 
-This folder contains the awesome Solr OCR Highlight library [v0.8.4](https://github.com/dbmdz/solr-ocrhighlighting/releases/tag/0.8.4) built by the Development Team at [Bavarian State Library](https://github.com/dbmdz)
+This folder contains the awesome Solr OCR Highlight library [v0.9.4](https://github.com/dbmdz/solr-ocrhighlighting/releases/tag/0.9.4) built by the Development Team at [Bavarian State Library](https://github.com/dbmdz)
 
 More info here: https://github.com/dbmdz/solr-ocrhighlighting
 
