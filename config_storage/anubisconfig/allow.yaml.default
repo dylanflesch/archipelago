@@ -1,9 +1,10 @@
+# Replace in line 13 'headers["Referer"].startsWith("http://esmero-web")' with your actual Domain name
 # Put here your Own Public and Private IPs. Even the Docker ones if you want so
 #- name: allow-my-archipelago-ips
-# Replace 'headers["Referer"].startsWith("http://esmero-web")' with your actual Domain name
 #  action: ALLOW
-#  remote_addresses: [
-#  ]
+#  remote_addresses: 
+#  - my.ip.add.ress/32
+#  - myother.ip.add.ress/32
 - name: allow-myself-ajax
   action: ALLOW
   expression:
@@ -12,6 +13,11 @@
     - 'headers["Referer"].startsWith("http://esmero-web")'
     - '"Sec-Fetch-Dest" in headers'
     - 'headers["Sec-Fetch-Dest"] == "empty"'
+- name: allow-my-archipelago-open-api
+  action: ALLOW
+  expression:
+    all:
+    - path.startsWith("/ap/api/")
 - name: allow-myself-internal
   action: ALLOW
   expression:
