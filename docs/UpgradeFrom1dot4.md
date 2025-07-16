@@ -547,7 +547,7 @@ If you decide to upgrade your services please review one of these (based on your
 - https://github.com/esmero/archipelago-deployment-live/blob/1.5.0/deploy/ec2-docker/docker-compose-aws-s3-arm64.yml
 - https://github.com/esmero/archipelago-deployment-live/blob/1.5.0/deploy/ec2-docker/docker-compose-aws-s3.yml
 
-And selectively copy images/enviromentals into your production `docker-compose.yml` file. Please also read and use [General Installation guide for 1.5.0](../README.md) to ensure you are using the right and new .env. Basically have it at hand to validate all your changes.
+And selectively copy images/enviromentals into your production `docker-compose.yml` file. Please also read and use [General Installation guide for 1.5.0](../README.md) to ensure you are using the right, and new, `.env` enviromentals. Basically have it at hand to validate all your changes.
 
 **Special NOTE:** Solr 9.8 uses `Modules` instead of libraries and also uses a different Solr OCR Highlight version, which can be seen [here](https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/data_storage/solrlib). We have a separte guide (longer/more extensive) for [upgrading Solr](search_solr_index9dot2to9dot8.md). You can either start with it or leave it to the end. Up to you
 
