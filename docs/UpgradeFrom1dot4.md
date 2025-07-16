@@ -539,7 +539,7 @@ Please login to your Archipelago and test/check all is working! Enjoy Archipelag
 ## Upgrading to Archipelago 1.5.0 new Services and Containers
 
 
-### Step 1: Edit docker-composer.yml 
+### Step 1: Edit docker-compose.yml 
 
 For this release there are larger updates on the Docker backend level. PHP was updated from 8.1 to 8.3 and Solr 9 was updated from 9.2 to 9.8 and Database (MYSQL and MariaDB) also got a version bump. As with 1.4.0 [Esmero NLP with Machine Learning Model Endpoints](https://github.com/esmero/archipelago-deployment/blob/cb801feb2886c0a97c971888360ae351f09138cd/docker-compose-linux.yml#L79-L82) is not meant for production/public access. Reasons are many (same as before): some technical (CPU/GPU and memory consumption not suited for a medium server) but mostly about usefulness, use cases, real needs driving the use of the tools we developed and the very much needed Community Discussion and Consensus on our Field's (GLAM) ethical concerns about this.
 
