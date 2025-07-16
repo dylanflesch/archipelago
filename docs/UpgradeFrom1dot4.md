@@ -23,7 +23,7 @@ This documentation is meant to be a guide/helper, not a *single-click-magic* sol
 - Patience(again). **You can't skip steps here.**
 - For shell Commands documented here please copy line by line--not the whole block.
 - You are running already version control and know how to git pull/push/merge.
-- Your current git tree (the branch you are running) has no uncommitted/untracked changes. This is important. Make sure your `git status` and `git log` are clean.
+- Your current git tree (the branch you are running) has no uncommitted/untracked changes. This is important. **Make sure** your `git status` and `git log` are clean.
 
 ## Backing up and preparing for the upgrade
 
@@ -498,7 +498,22 @@ If you made it this far you are done with code/devops (are we ever really?), and
 
 ### Step 4: Update (or not) your Metadata Display Entities and menu items
 
-Recommended: If you want to add new templates and menu items 1.5.0 provides, you need to fetch everything from this remote [https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/drupal/d8content](https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/drupal/d8content) to your local installation into the same folder structure/location and then run:
+Recommended: If you want to add new templates and menu items 1.5.0 provides, you need to fetch everything from this remote [https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/drupal/d8content](https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/drupal/d8content) to your local installation into the same folder structure/location,
+then replace your local `deploy.sh` and `update_deployed.sh` scripts which can be found inside your base archipelago deployment folder inside drupal/scripts/archipelago with
+
+`https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/drupal/scripts/archipelago/deploy.sh`
+ and
+`https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/drupal/scripts/archipelago/update_deployed.sh`
+
+from the new release and, as described in the general (from zero) [deployment instructions](https://github.com/esmero/archipelago-deployment-live/blob/1.5.0/README.md) replace the `http://esmero-web` with your real domain.
+On a terminal navigate to your base archipelago deployment folder and run the following command replacing `your.domain.org` with your actual domain.
+
+```Shell
+ sed -i 's/http:\/\/esmero-web/https:\/\/your.domain.org/g' drupal/scripts/archipelago/deploy.sh
+ sed -i 's/http:\/\/esmero-web/https:\/\/your.domain.org/g' drupal/scripts/archipelago/update_deployed.sh
+````
+
+ and then run:
 
 ```shell
 docker exec -ti esmero-php bash -c 'scripts/archipelago/deploy.sh'
@@ -506,7 +521,7 @@ docker exec -ti esmero-php bash -c 'scripts/archipelago/deploy.sh'
 
 `Important`: If you don't download/sync/git merge (or your prefered method) then the command will add nothing, since you will be running this command against 1.4.0 content.
 
-Once that is done, you can choose to update all Metadata Displays (twig templates) we ship with new 1.5.0 versions (including heavily adjusted IIIF manifest templates with Content Search API service definitions). Before you do this, we **strongly** recommend that you first make sure to manually (copy/paste) backup any Twig templates you have modified. If unsure, do not run the command that comes after this warning! You can always manually copy the new templates from the `d8content/metadatadisplays` folder which contains text versions (again, copy/paste) of each shipped template you can pick and use when you feel ready.
+Once that is done, you *could* choose to update all Metadata Displays (twig templates) we ship with new 1.5.0 versions (including heavily adjusted IIIF manifest templates with Content Search API service definitions). Before you do this, we **strongly** recommend that you first make sure to manually (copy/paste) backup any Twig templates you have modified. If unsure, *do not run* the command that comes after this warning! You can always manually copy the new templates from the `d8content/metadatadisplays` folder which contains text versions (again, copy/paste) of each shipped template you can pick and use when you feel ready.
 
 If you are sure (like really?) you **really want to overwrite** the ones you modified (sure, just checking?), then you can run this (make sure you edit that file):
 
@@ -521,26 +536,6 @@ Done! (For realz now)
 Please login to your Archipelago and test/check all is working! Enjoy Archipelago 1.5.0 under Drupal 10. Thanks! Also please keep all your new changes under version control. Check what has changed. `git add` and `git commit -m "What i changed"` as needed.
 
 
-# Anubis
-
-cd archipelago-deployment-live
-cd deploy/
-cd ec2-docker/
-nano docker-compose.yml 
-openssl rand -hex 32
-nano .env
-cd ..
-cd config_storage/nginxconfig/template/
-mv nginx.conf.template nginx.conf.template.no-anubis
-wget https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/config_storage/nginxconfig/template/nginx.conf.template.anubis -O nginx.conf.template
-cd ..
-mkdir anubisconfig
-cd anubisconfig/
-wget https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/config_storage/anubisconfig/allow.yaml.default -O allow.yaml
-wget https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/config_storage/anubisconfig/botPolicies.yaml.default -O botPolicies.yaml
-wget https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/config_storage/anubisconfig/deny.yaml.default -O deny.yaml
-
-
 ## Upgrading to Archipelago 1.5.0 new Services and Containers
 
 
@@ -552,15 +547,21 @@ If you decide to upgrade your services please review one of these (based on your
 - https://github.com/esmero/archipelago-deployment-live/blob/1.5.0/deploy/ec2-docker/docker-compose-aws-s3-arm64.yml
 - https://github.com/esmero/archipelago-deployment-live/blob/1.5.0/deploy/ec2-docker/docker-compose-aws-s3.yml
 
-And selectively copy images/enviromentals into your production `docker-compose.yml` file.
+And selectively copy images/enviromentals into your production `docker-compose.yml` file. Please also read and use [General Installation guide for 1.5.0](../README.md) to ensure you are using the right and new .env. Basically have it at hand to validate all your changes.
 
-For this, if you have not already, run:
+**Special NOTE:** Solr 9.8 uses `Modules` instead of libraries and also uses a different Solr OCR Highlight version, which can be seen [here](https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/data_storage/solrlib). We have a separte guide (longer/more extensive) for [upgrading Solr](search_solr_index9dot2to9dot8.md). You can either start with it or leave it to the end. Up to you
+
+**Special Note2:** Anubis. Anubis is a Web Application Firewall that will aid in traffic control generated by AI/ML Bots. It uses a special NGINX configuration and special .env variables. Don't upgrade to Anubis YET during this process. We will provide another guide soon. You can also check the [General Installation guide for 1.5.0](../README.md) to install it, since you are actually NOT upgrading but installing from ZERO, with of course, the proper precautions that IF you have already customized your `nginx.default.template` file, you will need to bring those into the newer/needed https://raw.githubusercontent.com/esmero/archipelago-deployment-live/refs/heads/1.5.0/config_storage/nginxconfig/template/nginx.conf.template.anubis which needs to be used as replacement. If unsure. Don't install/upgrade to Anubis.
+
+Ok. Done with the Notes.
+
+If you have not already, navigate to `deploy/ec2-docker` and run:
 
 ```shell
 docker-compose down
 ```
 
-Then open your docker-compose.yml file and with one of the previous links open, edit the corresponding service definitions:
+Then open your docker-compose.yml file and with one of the previous links open, edit the corresponding service definitions EXCEPT SOLR (we have a different guide, we told you so already!):
 
 ```shell
 nano docker-compose.yml
@@ -586,19 +587,18 @@ docker ps
 You should see something like this if you synced all containers to the latest (your versions and databsae might vary depending on your server's platform):
 
 ```shell
-1346e924635b   jonasal/nginx-certbot                              "/docker-entrypoint.…"   3 weeks ago   Up 3 weeks   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   esmero-web
-d4cb49de7cf3   mariadb:10.6.22-focal                              "docker-entrypoint.s…"   3 weeks ago   Up 3 weeks   3306/tcp                                                                   esmero-db
-1f568543946f   minio/minio:RELEASE.2022-06-11T19-55-32Z           "/usr/bin/docker-ent…"   3 weeks ago   Up 3 weeks   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp              esmero-minio
-0773f49e94c0   esmero/anubis:multiarch                            "/ko-app/anubis"         3 weeks ago   Up 3 weeks                                                                              esmero-anubis
-7cd4c91aa1b6   esmero/esmero-nlp:1.4.2-fasttext-multiarch         "/usr/local/bin/entr…"   3 weeks ago   Up 3 weeks   0.0.0.0:6400->6400/tcp, :::6400->6400/tcp                                  esmero-nlp
-9c9a33b5dfed   esmero/cantaloupe-s3:6.0.5-noturbojpeg-multiarch   "sh -c 'java -Dcanta…"   3 weeks ago   Up 3 weeks   0.0.0.0:8183->8182/tcp, :::8183->8182/tcp                                  esmero-cantaloupe
-bbeba008c0d7   esmero/php-8.3-fpm:1.5.0-multiarch                 "docker-php-entrypoi…"   3 weeks ago   Up 3 weeks   9000/tcp                                                                   esmero-php
-4895525e24cb   redis:6.2-alpine                                   "docker-entrypoint.s…"   3 weeks ago   Up 3 weeks                                                                              esmero-redis
-320520f2bfaa   solr:9.8.1                                         "docker-entrypoint.s…"   3 weeks ago   Up 3 weeks   0.0.0.0:8983->8983/tcp, :::8983->8983/tcp                                  esmero-solr
+CONTAINER ID   IMAGE                                                  COMMAND                  CREATED          STATUS          PORTS                              NAMES
+5b06ee366f58   jonasal/nginx-certbot                                  "/docker-entrypoint.…"   10 minutes ago   Up 10 minutes   0.0.0.0:8001->80/tcp               esmero-web
+86b685008158   solr:9.2.1                                             "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   0.0.0.0:8983->8983/tcp             esmero-solr
+e9361ed424ab   esmero/cantaloupe-s3:6.0.5-noturbojpeg-multiarch       "sh -c 'java -Dcanta…"   10 minutes ago   Up 10 minutes   0.0.0.0:8183->8182/tcp             esmero-cantaloupe
+1dc524aeb6b4   mariadb:10.6.22-focal                                  "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   3306/tcp                           esmero-db
+85bedadf9732   redis:6.2-alpine                                       "docker-entrypoint.s…"   10 minutes ago   10 minutes ago                                     esmero-redis
+6a9e9d8647a9   minio/minio:RELEASE.2022-06-11T19-55-32Z               "/usr/bin/docker-ent…"   10 minutes ago   Up 10 minutes   0.0.0.0:9000-9001->9000-9001/tcp   esmero-minio
+aa82d6b42ec6   esmero/php-8.3-fpm:1.5.0-multiarch                     "docker-php-entrypoi…"   10 minutes ago   Up 10 minutes   9000/tcp                           esmero-php
+458e826199bd   esmero/esmero-nlp:1.4.2-multiarch                      "/usr/local/bin/entr…"   10 minutes ago   Up 10 minutes   0.0.0.0:6400->6400/tcp             esmero-nlp
 ```
 
-Important here is the `STATUS` column. It **needs** to be a number that goes up in time every time you run `docker ps` again (and again).
-
+Important here is the `STATUS` column. It **needs** to be a number that goes up in time every time you run `docker ps` again (and again). Notice Solr is at 9.2 here still. If you followed the Solr 9.2 to 9.8 guide it will be at 9.8
 
 
 ### Need help? Blue Screen? Missed a step? Need a hug or someone that listens to you in silence?
