@@ -221,7 +221,7 @@ sudo sudo chown -R 8983:8983 data_storage/solrcore
 
 Now we need to remove the old OCR library and replace with the new one
 
-```SHELL
+```shell
 rm /home/ec2-user/archipelago-deployment-live/data_storage/solrlib/*.jar
 cp -rpv /home/ec2-user/archipelago-deployment-live-1.5.0/data_storage/solrlib/solr-ocrhighlighting-0.9.4-SNAPSHOT.jar data_storage/solrlib/.
 ```
@@ -243,7 +243,7 @@ This step requires some nerve. Be sure you know where you are inside your termin
 
 Inside your archipelago-deployment-live folder run:
 
-```SHELL
+```shell
 cd data_storage/solrcore
 pwd
 ```
@@ -255,21 +255,21 @@ You should see something like
 
 Which means you are in the correct folder. Now time to clean your index (really think twice here ok? You have a backup. **Never** run any of these without a backup)
 
-```SHELL
+```shell
 sudo rm -rf *
 ```
 
 Now we need the new configurations for your Solr (so then docker container can re-create the index from scratch). Remember we downloaded a reference/empty Archipelago Deployment Live 1.4.0 at `/home/ec2-user/archipelago-deployment-live-1.4.0`.
 We are going to use the files there to replace your own configs. `cd` back to your live deployment assuming here it is (still) `/home/ec2-user/archipelago-deployment-live`
 
-```SHELL
+```shell
 cd /home/ec2-user/archipelago-deployment-live
 cp -rpv /home/ec2-user/archipelago-deployment-live-1.5.0/config_storage/solrconfig/conf/* config_storage/solrconfig/conf/.
 ```
 
 Now we need to remove the old OCR library and replace with the new one
 
-```SHELL
+```shell
 rm /home/ec2-user/archipelago-deployment-live/data_storage/solrlib/*.jar
 cp -rpv /home/ec2-user/archipelago-deployment-live-1.5.0/data_storage/solrlib/solr-ocrhighlighting-0.9.4-SNAPSHOT.jar data_storage/solrlib/.
 ```
@@ -346,6 +346,7 @@ Run the following:
 docker exec esmero-php drush search-api-reindex
 docker exec esmero-php drush search-api-index
 ```
+
 Check your Drupal logs, try some searches.
 
 
@@ -355,7 +356,7 @@ Done! Hurrah!
 
 ___
 
-### Need help? Strange logs? Searching for happyness leads to no results? Missed a step? Need a hug or someone that listens to you in silence?
+### Need help? Strange logs? Searching for happiness leads to no results? Missed a step? Need a hug or someone that listens to you in silence?
 
 If you see any issues or errors or need help with a step, please let us know (ASAP!). You can either open an `issue` in this repository or use the [Google Group](https://groups.google.com/forum/#!forum/archipelago-commons). We are here to help.
 
@@ -363,7 +364,6 @@ If you see any issues or errors or need help with a step, please let us know (AS
 
 * [Diego Pino](https://github.com/DiegoPino)
 * [Allison Sherrick](https://github.com/alliomeria)
-* [Giancarlo Birello](https://github.com/giancarlobi)
 
 ## License
 
