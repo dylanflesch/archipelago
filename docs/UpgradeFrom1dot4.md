@@ -470,7 +470,7 @@ docker exec -ti esmero-php bash -c "drush updatedb"
 
 ### Step 5: Optional Syncs (Optional)
 
-Optionally, you can sync your new Archipelago 1.4.0 and bring in all the latest configs and settings. This requires you do fetch, either via `git` or manually via `wget` or `curl` newer configs from https://github.com/esmero/archipelago-deployment-live/tree/1.4.0/drupal/config/sync into the same folder structure/location of your deployment.
+Optionally, you can sync your new Archipelago 1.5.0 and bring in all the latest configs and settings. This requires you do fetch, either via `git` or manually via `wget` or `curl` newer configs from https://github.com/esmero/archipelago-deployment-live/tree/1.5.0/drupal/config/sync into the same folder structure/location of your deployment.
 
 For this you have **two** options (no worries, actually do worry, just remember you made a backup! Did you? Double check!):
 
