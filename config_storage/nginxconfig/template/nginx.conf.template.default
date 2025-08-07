@@ -8,8 +8,8 @@ server {
     server_name         ${FQDN};
     ssl_certificate     /etc/letsencrypt/live/${FQDN}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${FQDN}/privkey.pem;
-    client_max_body_size 1536M; ## Match with PHP from FPM container
-
+    ## TUS Protocol will still need client_max_body_size value to match max File Size, event if never really sending a complete POST that requires it.
+    client_max_body_size 4096M; ## Larger or equal to PHP from FPM container. At least as large as TUS File Upload MAX.
     root /var/www/html/web; ## <-- Your only path reference.
 
    if ($http_user_agent ~* (go\-http|zgrab|mj12bot|meta\-externalagent|oai\-searchbot|tiktok|tiktokspider|lplinkcheck|netcrawl|npbot|AliyunSecBot|bytedance|bytespider|gptbot|semrush|petalbot|amazonbot|ahrefsbot|zhanzhang|semrushbot|brightbot|imagesiftbot|barkrowler|friendlycrawler|turnitin|claudebot|python-requests|aiohttp|semanticscholarbot|go\-http\-client|facebookexternalhit)) {
