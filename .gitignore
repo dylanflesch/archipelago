@@ -1,0 +1,43 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+log/
+*.log
+
+# Temporary files
+tmp/
+*.tmp
+*.bak
+*.swp
+*.swo
+*.old
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+# Editor/IDE folders
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Bundler / Ruby specific
+.bundle/
+vendor/bundle/
+
+# RubyMine or JetBrains IDE
+.idea/
+
+# Solr generated files
+solr/data/
+
+# Archives, backup files
+*.tgz
