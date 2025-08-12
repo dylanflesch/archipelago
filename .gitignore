@@ -1,43 +1,23 @@
-# OS generated files
 .DS_Store
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Logs
-log/
-*.log
-
-# Temporary files
-tmp/
-*.tmp
-*.bak
-*.swp
-*.swo
-*.old
-
-# Environment variables and secrets
-.env
-.env.local
-.env.*.local
-
-# Editor/IDE folders
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
-# Bundler / Ruby specific
-.bundle/
-vendor/bundle/
-
-# RubyMine or JetBrains IDE
-.idea/
-
-# Solr generated files
-solr/data/
-
-# Archives, backup files
-*.tgz
+config_storage/.DS_Store
+deploy/ec2-docker/.env
+data_storage/selfcert/private/nginx.key
+data_storage/selfcert/certs/nginx.crt
+data_storage/db/*
+data_storage/iiiftmp/*
+data_storage/iiifcache/*
+data_storage/iiifcache/.keep
+data_storage/letsencrypt/*
+data_storage/ngnixcache/*
+data_storage/solrcore/*
+data_storage/minio-data/*
+drupal/composer.lock
+drupal/vendor/*
+drupal/web/*
+drupal/private/*
+config_storage/nginxconfig/bots.d
+config_storage/nginxconfig/template/bots.include.template
+config_storage/nginxconfig/template/bots.include.copy
+config_storage/nginxconfig/template/ipdeny.include.template
+config_storage/anubisconfig/*.yaml
+config_storage/nginxconfig/template/nginx.conf.template
